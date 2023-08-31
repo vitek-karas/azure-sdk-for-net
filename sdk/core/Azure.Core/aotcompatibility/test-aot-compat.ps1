@@ -1,7 +1,12 @@
 param([string]$targetNetFramework)
 
-$rootDirectory = Split-Path $PSScriptRoot -Parent
 $publishOutput = dotnet publish -nodeReuse:false /p:UseSharedCompilation=false /p:ExposeExperimentalFeatures=true
+if ($LASTEXITCODE -ne 0)
+{
+    Write-Host "Publish failed."
+    Write-Host $publishOutput
+    Exit 2
+}
 
 $actualWarningCount = 0
 
